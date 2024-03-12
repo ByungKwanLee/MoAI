@@ -17,7 +17,7 @@ prompt = "Describe this image in detail."
 # [3] Loading MoAI
 from moai.load_moai import prepare_moai
 moai_model, moai_processor, seg_model, seg_processor, od_model, od_processor, sgg_model, ocr_model \
-    = prepare_moai(moai_path='/mnt/ssd/lbk-cvpr/MoAI/final', bits=4, grad_ckpt=False, lora=False, dtype='fp16')
+    = prepare_moai(moai_path='BK-Lee/MoAI-7B', bits=4, grad_ckpt=False, lora=False, dtype='fp16')
 
 # [4] Pre-processing for MoAI
 moai_inputs = moai_model.demo_process(image=image, 
