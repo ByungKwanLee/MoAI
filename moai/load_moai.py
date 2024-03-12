@@ -47,7 +47,7 @@ def prepare_moai(moai_path, bits, grad_ckpt, lora, dtype):
     elif not bits in [4, 8] and not lora:
         raise Exception("MoAI does not have any plan in full training without lora and bit quantization")
     else:
-        raise Exception("WTF")
+        raise Exception("No Way!")
 
     # bfloat16/float16 conversion 
     for param in moai_model.parameters():

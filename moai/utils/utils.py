@@ -15,27 +15,19 @@ def make_system_prompt(processor, device, ignore_index, img_length=1225):
 
     return system_prompt, moai_label, im_mask
 
-def make_and_add_prompt_and_label_with_im_mask(moai_prompt, moai_label, im_mask, prompt, answer, processor, device, ignore_index):
+def demo_make_and_add_prompt_and_im_mask(moai_prompt, im_mask, prompt, processor, device):
     
     # indent
-    prompt = " [UNUSED_TOKEN_146]user\n" + prompt + "[UNUSED_TOKEN_145]\n[UNUSED_TOKEN_146]assistant\n"
-
-    # Only Prompt Length
-    length = processor(prompt, return_tensors='pt', add_special_tokens=False).input_ids[0].shape[0]
-
-    # Concat Prompt + Answer Length + stop token
-    prompt = prompt + " " + str(answer) + "[UNUSED_TOKEN_145]</s>"
+    prompt = " USER:" + prompt + "ASSISTANT:"
 
     # input_ids and 
     label_ids = processor(prompt, return_tensors='pt', add_special_tokens=False).input_ids[0]
-    label_ids[:length]=ignore_index
     
     # Concat previous prompt + current prompt
     moai_prompt += prompt
-    moai_label = torch.tensor(moai_label.tolist() + label_ids.tolist()).to(device)
     im_mask = torch.tensor(im_mask.tolist() + torch.zeros_like(label_ids).tolist()).to(device)
     
-    return moai_prompt, moai_label, im_mask
+    return moai_prompt, im_mask
     
 def make_and_add_prompt_and_im_mask(moai_prompt, im_mask, prompt, processor, device):
     

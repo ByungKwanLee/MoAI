@@ -103,46 +103,52 @@ export DATASET=/path/to/dataset
 export DATASET2=/path/to/dataset
 export VLDATASET=/path/to/dataset
 ```
+> You should make directory 'checkpoints' in moai/sgg and upload checkpoint of Scene Graph Generation after downloading it, where its checkpoint filename should be 'psgtr_r50_epoch_60.pth'
+
+[Checkpoint Link](https://entuedu-my.sharepoint.com/personal/jingkang001_e_ntu_edu_sg/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fjingkang001%5Fe%5Fntu%5Fedu%5Fsg%2FDocuments%2Fopenpsg%2Fwork%5Fdirs%2Fpsgtr%5Fr50&ga=1) is from [Panoptic SGG](https://github.com/Jingkang50/OpenPSG).
+
+
+
 
 > At init_detector function in mmdet/apis/inference.py, line 95-110 should be commented to get compatibility. 
 
 ```python
-    # if palette != 'none':
-    #     model.dataset_meta['palette'] = palette
-    # else:
-    #     test_dataset_cfg = copy.deepcopy(config.test_dataloader.dataset)
-    #     # lazy init. We only need the metainfo.
-    #     test_dataset_cfg['lazy_init'] = True
-    #     metainfo = DATASETS.build(test_dataset_cfg).metainfo
-    #     cfg_palette = metainfo.get('palette', None)
-    #     if cfg_palette is not None:
-    #         model.dataset_meta['palette'] = cfg_palette
-    #     else:
-    #         if 'palette' not in model.dataset_meta:
-    #             warnings.warn(
-    #                 'palette does not exist, random is used by default. '
-    #                 'You can also set the palette to customize.')
-    #             model.dataset_meta['palette'] = 'random'
+# if palette != 'none':
+#     model.dataset_meta['palette'] = palette
+# else:
+#     test_dataset_cfg = copy.deepcopy(config.test_dataloader.dataset)
+#     # lazy init. We only need the metainfo.
+#     test_dataset_cfg['lazy_init'] = True
+#     metainfo = DATASETS.build(test_dataset_cfg).metainfo
+#     cfg_palette = metainfo.get('palette', None)
+#     if cfg_palette is not None:
+#         model.dataset_meta['palette'] = cfg_palette
+#     else:
+#         if 'palette' not in model.dataset_meta:
+#             warnings.warn(
+#                 'palette does not exist, random is used by default. '
+#                 'You can also set the palette to customize.')
+#             model.dataset_meta['palette'] = 'random'
 ```
 
 > At inference_detector function in mmdet/apis/inference.py, line 179- should be changed by the following lines. 
 
 ```python
-    # build the data pipeline
-    data_ = test_pipeline(data_)
+# build the data pipeline
+data_ = test_pipeline(data_)
 
-    data_['inputs'] = data_['inputs'].unsqueeze(0)
-    data_['data_samples'] = [data_['data_samples']]
+data_['inputs'] = data_['inputs'].unsqueeze(0)
+data_['data_samples'] = [data_['data_samples']]
 
-    # forward the model
-    with torch.no_grad():
-        results = model.test_step(data_)[0]
+# forward the model
+with torch.no_grad():
+    results = model.test_step(data_)[0]
 ```
 
 > In mmcv/transforms/processing.py, line 388 should be commented to get compatibility. 
 
 ```python
-    # results['img_shape'] = padded_img.shape[:2]
+# results['img_shape'] = padded_img.shape[:2]
 ```
 
 > Download MoAI Model and then run,

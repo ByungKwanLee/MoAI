@@ -8,7 +8,6 @@ from modeling import build_model
 from modeling.BaseModel import BaseModel
 from datasets import build_evaluator, build_eval_dataloader, build_train_dataloader
 from trainer.utils.misc import move_batch_to_device
-from torchvision.transforms.functional import to_pil_image
 
 from .utils.misc import hook_opt
 import torch.distributed as dist
