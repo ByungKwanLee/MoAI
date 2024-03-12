@@ -108,7 +108,7 @@ export VLDATASET=/path/to/dataset
 
 
 ```shell bash
-GPU_DEVICE="0,1,2,3"
+GPU_DEVICE="0,1,2,3,4,5"
 length=${#GPU_DEVICE}
 n_gpu=$(((length+1)/2))
 main_port=10000
