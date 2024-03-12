@@ -112,34 +112,31 @@ GPU_DEVICE="0,1,2,3"
 length=${#GPU_DEVICE}
 n_gpu=$(((length+1)/2))
 main_port=10000
-test_batch=1 # Only support one batch
+test_batch=1 # (Must be Necessary)
 
-# MoAIPipeline
 CUDA_VISIBLE_DEVICES=$GPU_DEVICE \
-            accelerate launch --config_file configs/accel/ddp_accel.yaml \
-            --num_processes=$n_gpu \
-            --main_process_port=$main_port \
-            lbk_entry.py eval \
-            --conf_files configs/moai_eval.yaml \
-            --overrides \
-            WANDB False \
-            DATASETS.TEST mme\
-            PIPELINE MMEPipeline \
-            GQA.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-            SCIENCEQA.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-            TEXTVQA.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-            POPE.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-            MME.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-            MMBENCH.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-            MMVET.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-            QBENCH.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-            MATHVISTA.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-            AI2D.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-            SEED.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-            HALLUSIONBENCH.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-            SAVE_DIR /path/to/MoAI_DIR \
-            WEIGHT True \
-            RESUME_FROM /path/to/MoAI_WEIGHT \
+accelerate launch --config_file configs/accel/ddp_accel.yaml \
+    --num_processes=$n_gpu \
+    --main_process_port=$main_port \
+    lbk_entry.py eval \
+    --conf_files configs/moai_eval.yaml \
+    --overrides \
+    WANDB False \
+    DATASETS.TEST mme \
+    PIPELINE MMEPipeline \
+    MME.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
+    SCIENCEQA.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
+    POPE.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
+    MMBENCH.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
+    MMVET.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
+    AI2D.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
+    HALLUSIONBENCH.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
+    MATHVISTA.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
+    QBENCH.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
+    SEED.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
+    SAVE_DIR /path/to/MoAI_DIR \
+    WEIGHT True \
+    RESUME_FROM /path/to/MoAI_WEIGHT \
 ```
 
 Note that, you should change the two parts to evaluate the dataset you want. (**This is very important!!**)

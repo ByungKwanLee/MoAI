@@ -16,18 +16,13 @@ accelerate launch --config_file configs/accel/ddp_accel.yaml \
     WANDB False \
     DATASETS.TEST mme \
     PIPELINE MMEPipeline \
-    VQA.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-    GQA.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
     MME.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
     SCIENCEQA.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
     POPE.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-    VIZWIZ.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
     MMBENCH.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
     MMVET.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
     AI2D.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-    CHARTQA.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
     HALLUSIONBENCH.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
-    LLAVABENCH.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
     MATHVISTA.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
     QBENCH.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
     SEED.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
