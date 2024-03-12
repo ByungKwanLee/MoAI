@@ -1,7 +1,7 @@
 # <img src="figures/moai_emoji.png" style="vertical-align: -10px;" :height="50px" width="50px"> ***MoAI: Mixture of All Intelligence for Large Language and Vision Models***
 
 ### 🎨 In-Progress
-- [ ] Code is public.
+- [x] Code is public (Only Inference Supported).
 - [x] Downloading MoAI-7B is available in Huggingface.
 - [ ] Huggingface README.md for simple running
 - [ ] Short running code for an image example is available.
