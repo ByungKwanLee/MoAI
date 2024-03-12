@@ -104,7 +104,48 @@ export DATASET2=/path/to/dataset
 export VLDATASET=/path/to/dataset
 ```
 
-> Download MoAI Model and then,
+> At init_detector function in mmdet/apis/inference.py, line 95-110 should be commented to get compatibility. 
+
+```python
+    # if palette != 'none':
+    #     model.dataset_meta['palette'] = palette
+    # else:
+    #     test_dataset_cfg = copy.deepcopy(config.test_dataloader.dataset)
+    #     # lazy init. We only need the metainfo.
+    #     test_dataset_cfg['lazy_init'] = True
+    #     metainfo = DATASETS.build(test_dataset_cfg).metainfo
+    #     cfg_palette = metainfo.get('palette', None)
+    #     if cfg_palette is not None:
+    #         model.dataset_meta['palette'] = cfg_palette
+    #     else:
+    #         if 'palette' not in model.dataset_meta:
+    #             warnings.warn(
+    #                 'palette does not exist, random is used by default. '
+    #                 'You can also set the palette to customize.')
+    #             model.dataset_meta['palette'] = 'random'
+```
+
+> At inference_detector function in mmdet/apis/inference.py, line 179- should be changed by the following lines. 
+
+```python
+    # build the data pipeline
+    data_ = test_pipeline(data_)
+
+    data_['inputs'] = data_['inputs'].unsqueeze(0)
+    data_['data_samples'] = [data_['data_samples']]
+
+    # forward the model
+    with torch.no_grad():
+        results = model.test_step(data_)[0]
+```
+
+> In mmcv/transforms/processing.py, line 388 should be commented to get compatibility. 
+
+```python
+    # results['img_shape'] = padded_img.shape[:2]
+```
+
+> Download MoAI Model and then run,
 
 
 ```shell bash
