@@ -1,12 +1,17 @@
 # <img src="figures/moai_emoji.png" style="vertical-align: -10px;" :height="50px" width="50px"> ***MoAI: Mixture of All Intelligence for Large Language and Vision Models***
 
+### MoAI is now available in 🤗[Huggingface Space](https://huggingface.co/BK-Lee/MoAI-7B).
+
+![a](https://github.com/ByungKwanLee/MoAI/assets/50401429/3a2b50b8-c573-45a8-be6a-1faa27539b40)
+
+
 ### 🎨 In-Progress
 - [x] Code is public (Only Inference Supported).
 - [x] Downloading MoAI-7B is available in Huggingface.
-- [ ] Huggingface README.md for simple running
-- [ ] Short running code for an image example is available.
+- [x] Huggingface README.md for simple running
+- [x] Short running code for an image example is available.
+- [ ] Uploading GPT-Aided Evaluation
 
----
 
 Official PyTorch implementation code for realizing the technical part of *Mixture of All Intelligence (MoAI)* to improve performance of numerous zero-shot vision language tasks.
 This code is developed on two baseline codes of [XDecoder: Generalized Decoding for Pixel, Image, and Language](https://github.com/microsoft/X-Decoder) accepted in [CVPR 2023](https://openaccess.thecvf.com/content/CVPR2023/papers/Zou_Generalized_Decoding_for_Pixel_Image_and_Language_CVPR_2023_paper.pdf)
@@ -151,8 +156,54 @@ with torch.no_grad():
 # results['img_shape'] = padded_img.shape[:2]
 ```
 
-> Download MoAI Model and then run,
+> Download MoAI Model and then run the demo script,
 
+```python
+"""
+MoAI-7B
+
+Simple Six Steps
+"""
+
+# [1] Loading Image
+from PIL import Image
+from torchvision.transforms import Resize
+from torchvision.transforms.functional import pil_to_tensor
+image_path = "figures/moai_mystery.png"
+image = Resize(size=(490, 490), antialias=False)(pil_to_tensor(Image.open(image_path)))
+
+# [2] Instruction Prompt
+prompt = "Describe this image in detail."
+
+# [3] Loading MoAI
+from moai.load_moai import prepare_moai
+moai_model, moai_processor, seg_model, seg_processor, od_model, od_processor, sgg_model, ocr_model \
+    = prepare_moai(moai_path='/mnt/ssd/lbk-cvpr/MoAI/final', bits=4, grad_ckpt=False, lora=False, dtype='fp16')
+
+# [4] Pre-processing for MoAI
+moai_inputs = moai_model.demo_process(image=image, 
+                                    prompt=prompt, 
+                                    processor=moai_processor,
+                                    seg_model=seg_model,
+                                    seg_processor=seg_processor,
+                                    od_model=od_model,
+                                    od_processor=od_processor,
+                                    sgg_model=sgg_model,
+                                    ocr_model=ocr_model,
+                                    device='cuda:0')
+
+# [5] Generate
+import torch
+with torch.inference_mode():
+    generate_ids = moai_model.generate(**moai_inputs, do_sample=True, temperature=0.9, top_p=0.95, max_new_tokens=256, use_cache=True)
+
+# [6] Decoding
+answer = moai_processor.batch_decode(generate_ids, skip_special_tokens=True)[0].split('[U')[0]
+print(answer)
+```
+
+
+> If you want to valiate zero-shot performances in numerous datasets, then running the bash file 'run'.
 
 ```shell bash
 GPU_DEVICE="0,1,2,3,4,5"
@@ -217,7 +268,7 @@ Note that, you should change the two parts to evaluate the dataset you want. (**
 * SEED-IMG: `SEEDPipeline`
 * HallusionBench: `HallusionPipeline`
 
-> GPT-4 Aid Evalution for AI2D, MM-Vet, SEED-IMG
+> GPT-4 Aid Evalution for AI2D, MM-Vet, SEED
 
 This code will be soon public!
 

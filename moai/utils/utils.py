@@ -18,7 +18,7 @@ def make_system_prompt(processor, device, ignore_index, img_length=1225):
 def demo_make_and_add_prompt_and_im_mask(moai_prompt, im_mask, prompt, processor, device):
     
     # indent
-    prompt = " USER:" + prompt + "ASSISTANT:"
+    prompt = " USER: " + prompt + " ASSISTANT:"
 
     # input_ids and 
     label_ids = processor(prompt, return_tensors='pt', add_special_tokens=False).input_ids[0]

@@ -245,6 +245,9 @@ class MoAIModel(InternLM2PreTrainedModel):
         device,
         mode='moai_eval.yaml'):
 
+        # RGB Dimension
+        image = image[:3]
+        
         # Segmentation Inputs
         seg_inputs = seg_processor(images=[image], return_tensors="pt")
 
