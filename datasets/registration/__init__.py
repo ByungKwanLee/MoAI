@@ -1,6 +1,5 @@
 from . import (
     register_sharegpt_datasets,
-    register_gqa_datasets,
     register_textvqa_datasets,
     register_scienceqa_datasets,
     register_pope_datasets,
