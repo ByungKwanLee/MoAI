@@ -36,39 +36,23 @@ from detectron2.evaluation import (
 from fvcore.common.config import CfgNode
 
 from .dataset_mappers import *
-from .evaluation import (InstanceSegEvaluator, 
-                         ClassificationEvaluator, 
-                         SemSegEvaluator, 
-                         RetrievalEvaluator, 
-                         COCOPanopticEvaluator,
-                         GroundingEvaluator,
-                         InteractiveEvaluator,
-                         VQAEvaluator,
-                         GQAEvaluator,
-                         TextVQAEvaluator,
+from .evaluation import (TextVQAEvaluator,
                          ScienceQAEvaluator,
                          POPEEvaluator,
-                         VizWizEvaluator,
                          MMEEvaluator,
                          MMBenchEvaluator,
                          QBenchEvaluator,
                          MMVetEvaluator,
-                         VQAEvaluator,
-                         GQAEvaluator,
                          TextVQAEvaluator,
                          ScienceQAEvaluator,
                          POPEEvaluator,
-                         VizWizEvaluator,
                          MMEEvaluator,
                          MMBenchEvaluator,
-                         LLaVABenchEvaluator,
                          QBenchEvaluator,
                          MMVetEvaluator,
                          MathVistaEvaluator,
                          AI2DEvaluator,
-                         MMMUEvaluator,
                          HallusionBenchEvaluator,
-                         ChartQAEvaluator,
                          SEEDEvaluator
 )
 
@@ -350,15 +334,6 @@ def build_evaluator(cfg, dataset_name, output_folder=None):
     evaluator_list = []
     evaluator_type = MetadataCatalog.get(dataset_name).evaluator_type
 
-    # semantic segmentation
-    if evaluator_type in ["sem_seg", "ade20k_panoptic_seg"]:
-        evaluator_list.append(
-            SemSegEvaluator(
-                dataset_name,
-                distributed=True,
-                output_dir=output_folder,
-            )
-        )
     # instance segmentation
     if evaluator_type == "textvqa":
         evaluator_list.append(TextVQAEvaluator(dataset_name, output_dir=output_folder))
