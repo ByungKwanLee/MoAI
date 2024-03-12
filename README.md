@@ -137,8 +137,9 @@ CUDA_VISIBLE_DEVICES=$GPU_DEVICE \
             AI2D.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
             SEED.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
             HALLUSIONBENCH.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
+            SAVE_DIR /path/to/MoAI_DIR \
             WEIGHT True \
-            RESUME_FROM /path/to/MoAI \
+            RESUME_FROM /path/to/MoAI_WEIGHT \
 ```
 
 Note that, you should change the two parts to evaluate the dataset you want. (**This is very important!!**)

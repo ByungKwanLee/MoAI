@@ -31,6 +31,7 @@ accelerate launch --config_file configs/accel/ddp_accel.yaml \
     MATHVISTA.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
     QBENCH.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
     SEED.TEST.BATCH_SIZE_TOTAL $((n_gpu * test_batch)) \
+    SAVE_DIR /path/to/MoAI_DIR \
     WEIGHT True \
-    RESUME_FROM /path/to/MoAI \
+    RESUME_FROM /path/to/MoAI_WEIGHT \
 ##################################################################################################
