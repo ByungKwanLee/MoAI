@@ -118,7 +118,7 @@ class MMEPipeline:
                 
                 # Batch Generate
                 with torch.inference_mode():
-                    generate_ids = model.moai_model.generate(**moai_inputs, do_sample=False, num_beams=5, max_new_tokens=5, use_cache=True)
+                    generate_ids = model.moai_model.generate(**moai_inputs, do_sample=False, num_beams=3, max_new_tokens=5, use_cache=True)
                 
                 # Batch Decoding
                 decoded_text = []
