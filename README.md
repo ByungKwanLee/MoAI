@@ -1,6 +1,7 @@
 # <img src="figures/moai_emoji.png" style="vertical-align: -10px;" :height="50px" width="50px"> ***MoAI: Mixture of All Intelligence for Large Language and Vision Models*** [[ArXiv](https://arxiv.org/abs/2403.07508)]
 
 ### MoAI is now available in 🤗[Huggingface Space](https://huggingface.co/BK-Lee/MoAI-7B).
+Json files of score results for numerous vision language benchmarks in MoAI are also accessible in [Google Drive](https://drive.google.com/drive/folders/1iUS4KdNyIs2cTBDcRDZxtbnxuxfpg9Vi?usp=sharing).
 
 ![a](https://github.com/ByungKwanLee/MoAI/assets/50401429/3a2b50b8-c573-45a8-be6a-1faa27539b40)
 
