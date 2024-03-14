@@ -1,7 +1,9 @@
 # <img src="figures/moai_emoji.png" style="vertical-align: -10px;" :height="50px" width="50px"> ***MoAI: Mixture of All Intelligence for Large Language and Vision Models*** [[ArXiv](https://arxiv.org/abs/2403.07508)]
 
-### MoAI is now available in 🤗[Huggingface Space](https://huggingface.co/BK-Lee/MoAI-7B).
-Json files of score results for numerous vision language benchmarks in MoAI are also accessible in 🗃️[Google Drive](https://drive.google.com/drive/folders/1iUS4KdNyIs2cTBDcRDZxtbnxuxfpg9Vi?usp=sharing).
+### 📰 News
+- MoAI is now available in 🤗[Huggingface Space](https://huggingface.co/BK-Lee/MoAI-7B).
+- MoAI is featured by [Huggingface Daily Papers](https://huggingface.co/papers?date=2024-03-13). 
+- Json files of score results for numerous vision language benchmarks in MoAI are also accessible in 🗃️[Google Drive](https://drive.google.com/drive/folders/1iUS4KdNyIs2cTBDcRDZxtbnxuxfpg9Vi?usp=sharing).
 
 ![a](https://github.com/ByungKwanLee/MoAI/assets/50401429/3a2b50b8-c573-45a8-be6a-1faa27539b40)
 
@@ -17,6 +19,20 @@ Json files of score results for numerous vision language benchmarks in MoAI are 
 Official PyTorch implementation code for realizing the technical part of *Mixture of All Intelligence (MoAI)* to improve performance of numerous zero-shot vision language tasks.
 This code is developed on two baseline codes of [XDecoder: Generalized Decoding for Pixel, Image, and Language](https://github.com/microsoft/X-Decoder) accepted in [CVPR 2023](https://openaccess.thecvf.com/content/CVPR2023/papers/Zou_Generalized_Decoding_for_Pixel_Image_and_Language_CVPR_2023_paper.pdf)
 and [InternLM](https://github.com/InternLM/InternLM) for [Technical Paper](https://github.com/InternLM/InternLM-techreport/blob/main/InternLM.pdf). Please understand the combined code in the current version combining two technical code implementation!
+
+## 📖 Citation
+
+```
+@misc{lee2024moai,
+      title={MoAI: Mixture of All Intelligence for Large Language and Vision Models}, 
+      author={Byung-Kwan Lee and Beomchan Park and Chae Won Kim and Yong Man Ro},
+      year={2024},
+      eprint={2403.07508},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+```
+
 
 ## 🏝️ Summary
 
@@ -55,6 +71,16 @@ Table. Illustrating zero-shot vision language performances (a) by model size sca
 | [LLaVA1.5-7B](https://huggingface.co/docs/transformers/model_doc/llava)     | 58.7 |   66.8   |   58.2   |   85.9   |   1511   |   294   |   64.3   |   58.3   |   30.5   |
 | [MoAI-7B](https://huggingface.co/BK-Lee/MoAI-7B/tree/main)      |   **70.2**   | **83.5** | **67.8** | **87.1** | **1714** | **561** | **79.3** | **76.5** | **43.7** |
 
+
+## Interesting Questions for Architecture Choices [[source](https://huggingface.co/papers/2403.07508#65f219503b7b25366c671170)]
+
+- Q1. Have you tried just feeding in the auxiliary feature into the LLM without compression? Is the compression of all auxiliary features down to just 64 tokens mainly for efficiency?
+
+- A1. According to the paper "Enhancing Multimodal Large Language Models with Vision Detection Models: An Empirical Study", we gained the insight that just feeding auxiliary information without compression leads to peformance degradation. We think that it is becuase wrong information get from external computer vision models seems to damage outputs of MoAI directly. As you know, not only external CV models but also other models are not perfect models to predict completely due to many reasons. Therefore, the referred paper assigns learnable parameters to the auxiliary information. The main purpose of compression is for efficiency, of course, but moreover, we expect that MoAI-Compressor corrects wrong information or eliminates non-relevant information for vision language tasks.
+
+- Q2. Have you tried just concatenating all of the features together (marked by begin/end boundary tokens for e.g.) instead of using cross attention in each of the "experts"?
+
+- A2. We can answer the question by the two types. In case of not using the compressed 64 tokens, auxiliary tokens are, on average, 1500 tokens. Therefore, training MoAI with image tokens + auxiliary tokens + language tokens brings in heavy burden, and wrong information can damage the output of MoAI. On the other hand, in case of using the compressed ones, just concatenating all features you mentioned can be an appropriate infusion strategy only when learning transformer decoder block with supervised fine tuning, LoRA, and QLoRA. However, we want to connect the original transformer decoder block with MoAI-Mixer and train only MoAI-Mixer, instead of directly tuning the transformer decoder. This is because we believe this plug-in-play infusion strategy can boost the utilization of LLMs without editing the original ones. Furthermore, the purpose of employing MoE is based on its effectiveness on the paper "MoE-LLaVA: Mixture of Experts for Large Vision-Language Models" that provided a key in how to effectively harmonize auxiliary features with visual and language features, where the self-attended and cross-attended features are expected to independently capture various aspects compared with the jointly concatenated features.
 
 ## 📂 Directory Layout
     .
@@ -111,7 +137,7 @@ export VLDATASET=/path/to/dataset
 ```
 > You should make directory 'checkpoints' in moai/sgg and upload checkpoint of Scene Graph Generation after downloading it, where its checkpoint filename should be 'psgtr_r50_epoch_60.pth'
 
-[Checkpoint Link](https://entuedu-my.sharepoint.com/personal/jingkang001_e_ntu_edu_sg/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fjingkang001%5Fe%5Fntu%5Fedu%5Fsg%2FDocuments%2Fopenpsg%2Fwork%5Fdirs%2Fpsgtr%5Fr50&ga=1) is from [Panoptic SGG](https://github.com/Jingkang50/OpenPSG).
+Download checkpoints with labeled name 'PSGTR' in [Panoptic SGG](https://github.com/Jingkang50/OpenPSG). Or, download checkpoints in my google drive [Google Drive](https://drive.google.com/file/d/14pOD_XPY1LFzV-4B9SbtNBpE5z5TKBQD/view?usp=sharing).
 
 
 
