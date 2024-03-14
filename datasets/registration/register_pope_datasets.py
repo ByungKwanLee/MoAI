@@ -5,7 +5,7 @@ import logging
 from detectron2.data import DatasetCatalog, MetadataCatalog
 
 _PREDEFINED_SPLITS_PRETRAIN = {
-    "pope_test": ["moai_pope_test.json"],
+    "pope_test": ["new_pope_test.json"],
 }
 
 def get_metadata(name):
