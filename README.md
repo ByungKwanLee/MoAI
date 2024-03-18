@@ -4,7 +4,7 @@
 - MoAI is now available in 🤗[Huggingface Space](https://huggingface.co/BK-Lee/MoAI-7B).
 - MoAI is featured by [Huggingface Daily Papers](https://huggingface.co/papers?date=2024-03-13). 
 - Json files of score results for numerous vision language benchmarks in MoAI are also accessible in 🗃️[Google Drive](https://drive.google.com/drive/folders/1iUS4KdNyIs2cTBDcRDZxtbnxuxfpg9Vi?usp=sharing).
-- Previous model, CoLLaVO has been released!. It is somewhat more lightweight than MoAI!. You can see this in [[Paper](https://arxiv.org/abs/2402.11248)]/[[Github](https://github.com/ByungKwanLee/CoLLaVO)]/[[Huggingface](https://huggingface.co/BK-Lee/CoLLaVO-7B)].
+- Previous model, CoLLaVO has been released!. It is somewhat more lightweight than MoAI in computation!. You can see this in [[Paper](https://arxiv.org/abs/2402.11248)]/[[Github](https://github.com/ByungKwanLee/CoLLaVO)]/[[Huggingface](https://huggingface.co/BK-Lee/CoLLaVO-7B)].
 
 ![a](https://github.com/ByungKwanLee/MoAI/assets/50401429/3a2b50b8-c573-45a8-be6a-1faa27539b40)
 
