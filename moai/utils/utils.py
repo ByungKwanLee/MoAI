@@ -288,8 +288,11 @@ def make_sgg_prompt(sgg_result, num_rel=10):
     return verbalization_sgg
 
 def make_ocr_prompt(ocr_result):
-    ocr_texts = [text_inform[1][0] for text_inform in ocr_result if text_inform[1][1] >= 0.85]
-    
+    if ocr_result is not None:
+        ocr_texts = [text_inform[1][0] for text_inform in ocr_result if text_inform[1][1] >= 0.85]
+    else:
+        ocr_texts = []
+        
     # Verbalization
     if len(ocr_texts)!=0:
         verbalization_ocr = 'The image includes text descriptions: '
